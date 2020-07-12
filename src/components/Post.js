@@ -8,19 +8,19 @@ class Post extends Component {
     }
     
     componentDidMount(){
-        console.log(this.props);
+        // console.log(this.props);
         let id =  this.props.match.params.post_id;
         // this.setState({
         //     id: id
         // })
 
         Axios.get('https://jsonplaceholder.typicode.com/posts/' + id).then(res =>{
-            console.log(res);
+            // console.log(res);
             this.setState({
                 post: res.data
             })
         }).catch(err =>{
-            console.log(err);
+            // console.log(err);
         });
     }
     render(){
