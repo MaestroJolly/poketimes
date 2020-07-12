@@ -1,12 +1,55 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Axios from 'axios';
 
-const Home = () => {
-    return (
-        <div className="container">
-            <h4 className="center">Home</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-    )
+class Home extends Component {
+
+    state = {
+        posts: []
+    }
+
+    // using async-await option.
+    // async componentDidMount(){
+    //     const posts = await Axios.get('https://jsonplaceholder.typicode.com/posts');
+    //     console.log(posts);
+    // }
+
+    // using promises
+    componentDidMount(){
+        Axios.get('https://jsonplaceholder.typicode.com/posts').then(res =>{
+            console.log(res);
+            this.setState({
+                posts: res.data.slice(1, 10)
+            })
+        }).catch(err =>{
+            console.log(err);
+        });
+    }
+
+    render(){
+        const { posts } = this.state;
+        const postLists = posts.length ? (
+            posts.map(post => {
+                return (
+                    <div className="post card" key={ post.id }>
+                        <div className="card-content">
+                            <span className="card-title">
+                                { post.title }
+                            </span>
+                            <p>{ post.body } </p>
+                        </div>
+                    </div>
+                )
+            })
+        ) : (
+            <div className="center">No Posts Yet.</div>
+        );
+        return (
+            <div className="container">
+                <h4 className="center">Home</h4>
+                { postLists }
+            </div>
+        )
+    }
 }
 
 export default Home;
