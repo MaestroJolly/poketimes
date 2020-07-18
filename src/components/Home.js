@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+// import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import PokeBall from '../pokeball.png';
+import { connect } from 'react-redux';
 
 class Home extends Component {
 
-    state = {
-        posts: []
-    }
+    // state = {
+    //     posts: []
+    // }
 
     // using async-await option.
     // async componentDidMount(){
@@ -15,26 +17,28 @@ class Home extends Component {
     // }
 
     // using promises
-    componentDidMount(){
-        Axios.get('https://jsonplaceholder.typicode.com/posts').then(res =>{
-            console.log(res);
-            this.setState({
-                posts: res.data.slice(1, 10)
-            })
-        }).catch(err =>{
-            console.log(err);
-        });
-    }
+    // componentDidMount(){
+    //     Axios.get('https://jsonplaceholder.typicode.com/posts').then(res =>{
+    //         console.log(res);
+    //         this.setState({
+    //             posts: res.data.slice(1, 10)
+    //         })
+    //     }).catch(err =>{
+    //         console.log(err);
+    //     });
+    // }
 
     render(){
-        const { posts } = this.state;
+        console.log(this.props);
+        const { posts } = this.props;
         const postLists = posts.length ? (
             posts.map(post => {
                 return (
                     <div className="post card" key={ post.id }>
+                        <img src={ PokeBall } alt="A pokeball"/>
                         <div className="card-content">
                             <Link to={'/' + post.id}>
-                                <span className="card-title">
+                                <span className="card-title red-text">
                                     { post.title }
                                 </span>
                             </Link>
@@ -47,7 +51,7 @@ class Home extends Component {
             <div className="center">No Posts Yet.</div>
         );
         return (
-            <div className="container">
+            <div className="container home">
                 <h4 className="center">Home</h4>
                 { postLists }
             </div>
@@ -55,4 +59,10 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts
+    }
+}
+
+export default connect(mapStateToProps)(Home);
