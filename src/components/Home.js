@@ -29,7 +29,6 @@ class Home extends Component {
     // }
 
     render(){
-        console.log(this.props);
         const { posts } = this.props;
         const postLists = posts.length ? (
             posts.map(post => {
